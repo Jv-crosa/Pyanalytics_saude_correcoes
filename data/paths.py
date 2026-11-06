@@ -52,9 +52,14 @@ def _acha(nome: str) -> Path | None:
 
 
 def csv_sim_parts() -> list[Path]:
-    """Pedaços do CSV analítico, em ordem (part001, part002, …)."""
+    """Pedaços do CSV analítico (.csv ou .csv.gz), em ordem de nome."""
     for pasta in _pastas_dados():
-        partes = sorted(pasta.glob(f"{CSV_STEM}.part*.csv"))
+        # formato antigo: sim_sc_processado_analitico.part001.csv
+        partes = sorted(pasta.glob(f"{CSV_STEM}.part*.csv*"))
+        if partes:
+            return partes
+        # formato atual: sim_sc_processado_analitico_part001_2.csv.gz
+        partes = sorted(pasta.glob(f"{CSV_STEM}_part*.csv*"))
         if partes:
             return partes
         unico = pasta / CSV_NAME
