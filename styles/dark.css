@@ -1,0 +1,474 @@
+/* Tema escuro — regras prefixadas com html:has(.pya-flag-escuro) via chrome.py */
+
+html:has(.pya-flag-escuro) {
+  color-scheme: dark;
+}
+
+.historia-intro,
+.historia-progresso span,
+.historia-evidencia {
+  color: #aeb6c2 !important;
+}
+
+.grafico-titulo {
+  color: #e8eaed !important;
+}
+
+.historia-progresso > div {
+  background: #2c333d !important;
+}
+
+div[class*='st-key-descoberta_'] {
+  background: #1a1e24 !important;
+  border-color: #2c333d !important;
+  border-top-color: #6ba6ff !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28) !important;
+}
+
+.historia-kicker {
+  color: #8bb6ff !important;
+}
+
+.historia-significado {
+  background: #292719 !important;
+  border-left-color: #fdc003 !important;
+}
+
+.historia-significado strong,
+.historia-significado p {
+  color: #e8eaed !important;
+}
+
+.heatmap-ajuda {
+  color: #aeb6c2 !important;
+}
+
+.historia-nav-link {
+  border-color: #5a6573 !important;
+  background: #252b34 !important;
+  color: #d9dde4 !important;
+}
+
+.historia-nav-link:hover {
+  border-color: #8bb6ff !important;
+  background: #303846 !important;
+  color: #ffffff !important;
+}
+
+.historia-nav-link.primary {
+  border-color: #6ba6ff !important;
+  background: #2764aa !important;
+  color: #ffffff !important;
+}
+
+.historia-nav-link.is-disabled {
+  border-color: #414a56 !important;
+  background: #20252c !important;
+  color: #9aa3b2 !important;
+}
+
+div[class*='st-key-anterior_'] button {
+  border-color: #5a6573 !important;
+  background: #252b34 !important;
+  color: #d9dde4 !important;
+  -webkit-text-fill-color: #d9dde4 !important;
+}
+
+div[class*='st-key-anterior_'] button * {
+  color: #d9dde4 !important;
+  -webkit-text-fill-color: #d9dde4 !important;
+}
+
+div[class*='st-key-anterior_historia_'] button:disabled,
+div[class*='st-key-proxima_historia_'] button:disabled {
+  border-color: #5a6573 !important;
+  background: #2c333d !important;
+  color: #c5cad3 !important;
+  -webkit-text-fill-color: #c5cad3 !important;
+}
+
+div[class*='st-key-anterior_historia_'] button:disabled *,
+div[class*='st-key-proxima_historia_'] button:disabled * {
+  color: #c5cad3 !important;
+  -webkit-text-fill-color: #c5cad3 !important;
+}
+
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"],
+[data-testid="stHeader"] {
+  background: #12151a !important;
+  color: #e8eaed !important;
+}
+
+html, body,
+h1, h2, h3, h4, h5, h6, p, li, label, span, small, strong, em,
+.stMarkdown,
+[data-testid="stMarkdownContainer"],
+[data-testid="stMarkdownContainer"] * ,
+[data-testid="stCaptionContainer"],
+[data-testid="stCaptionContainer"] *,
+[data-testid="stWidgetLabel"],
+[data-testid="stWidgetLabel"] *,
+.stCaption,
+.stExpander,
+.stExpander *,
+[data-testid="stExpander"],
+[data-testid="stExpander"] *,
+[data-testid="stExpanderDetails"],
+[data-testid="stExpanderDetails"] *,
+[data-testid="stAlert"],
+[data-testid="stText"],
+.stText,
+div[data-testid="stVerticalBlock"] > div {
+  color: #e8eaed !important;
+}
+
+[data-testid="stHorizontalBlock"]:has(.st-key-nav_search) {
+  background: #1a1e24 !important;
+  border-bottom-color: #2c333d !important;
+}
+
+.pya-title {
+  color: #6ba6ff !important;
+}
+
+.st-key-abrir_menu button,
+.st-key-header_home a,
+.st-key-header_sobre a,
+.st-key-header_nav a[href],
+.st-key-btn_tema button,
+.st-key-btn_busca button {
+  color: #e8eaed !important;
+}
+
+.st-key-abrir_menu button:hover,
+.st-key-header_home a:hover,
+.st-key-header_sobre a:hover,
+.st-key-btn_tema button:hover,
+.st-key-btn_busca button:hover {
+  color: #6ba6ff !important;
+}
+
+.st-key-pya_drawer,
+div[class*="st-key-pya_drawer"] {
+  background: #1a1e24 !important;
+  border-right-color: #2c333d !important;
+  box-shadow: 8px 0 24px rgba(0, 0, 0, 0.45) !important;
+  color: #e8eaed !important;
+}
+
+.st-key-pya_drawer a,
+.st-key-pya_drawer p,
+.st-key-pya_drawer span,
+.st-key-pya_drawer [data-testid="stMarkdownContainer"],
+.st-key-pya_drawer [data-testid="stMarkdownContainer"] * {
+  color: #e8eaed !important;
+}
+
+/* Combobox de busca no dark mode (header e medicamentos) */
+.st-key-nav_search .react-aria-ComboBox > [role="group"],
+.st-key-nav_search [data-testid="stSelectbox"] [role="group"],
+.st-key-med_busca_q .react-aria-ComboBox > [role="group"],
+.st-key-med_busca_q [data-testid="stSelectbox"] [role="group"] {
+  background: #2c333d !important;
+  border: 1.5px solid #5a6573 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.st-key-nav_search .react-aria-ComboBox > [role="group"]:focus-within,
+.st-key-nav_search [data-testid="stSelectbox"] [role="group"]:focus-within,
+.st-key-med_busca_q .react-aria-ComboBox > [role="group"]:focus-within,
+.st-key-med_busca_q [data-testid="stSelectbox"] [role="group"]:focus-within {
+  background: #1a1e24 !important;
+  border-color: #6ba6ff !important;
+  box-shadow: 0 0 0 2px rgba(107, 166, 255, 0.3) !important;
+}
+
+.st-key-nav_search input[role="combobox"],
+.st-key-nav_search input,
+.st-key-med_busca_q input[role="combobox"],
+.st-key-med_busca_q input {
+  color: #e8eaed !important;
+  -webkit-text-fill-color: #e8eaed !important;
+  caret-color: #e8eaed !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.st-key-nav_search input::placeholder,
+.st-key-med_busca_q input::placeholder {
+  color: #9aa3b2 !important;
+  -webkit-text-fill-color: #9aa3b2 !important;
+  opacity: 1 !important;
+}
+
+/* Chevron: não forçar fill em path[fill=none] (vira quadrado) */
+.st-key-nav_search [role="group"] > button,
+.st-key-med_busca_q [role="group"] > button {
+  color: #e8eaed !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.st-key-nav_search [role="group"] > button svg,
+.st-key-med_busca_q [role="group"] > button svg {
+  color: #e8eaed !important;
+  background: transparent !important;
+  fill: currentColor !important;
+}
+
+.st-key-nav_search [role="group"] > button svg path[fill="none"],
+.st-key-med_busca_q [role="group"] > button svg path[fill="none"] {
+  fill: none !important;
+}
+
+.stTextInput input {
+  background: #2c333d !important;
+  color: #e8eaed !important;
+  border: 1.5px solid #5a6573 !important;
+}
+
+.stTextInput input:focus {
+  background: #1a1e24 !important;
+  border-color: #6ba6ff !important;
+  box-shadow: 0 0 0 2px rgba(107, 166, 255, 0.3) !important;
+}
+
+/* Lista do combobox no tema escuro */
+[data-baseweb="popover"] [data-baseweb="menu"],
+[data-baseweb="menu"],
+ul[role="listbox"] {
+  background: #1a1e24 !important;
+  color: #e8eaed !important;
+  border-color: #2c333d !important;
+}
+
+ul[role="listbox"] li,
+[data-baseweb="menu"] li {
+  color: #e8eaed !important;
+}
+
+ul[role="listbox"] li:hover,
+[data-baseweb="menu"] li:hover {
+  background: #2c333d !important;
+}
+
+.glass-card,
+.alert-card {
+  background: rgba(26, 30, 36, 0.95) !important;
+  border-color: #2c333d !important;
+  color: #e8eaed !important;
+}
+
+.glass-card *,
+.alert-card * {
+  color: #e8eaed !important;
+}
+
+.glass-card .kpi-value {
+  color: #6ba6ff !important;
+}
+
+.alert-card .alert-title {
+  color: #e8eaed !important;
+}
+
+.glass-card .topic-kicker,
+.glass-card .kpi-label,
+.glass-card .muted,
+.alert-card .alert-kicker,
+.alert-card .kpi-label,
+.alert-card .muted {
+  color: #c5cad3 !important;
+}
+
+.alert-card .alert-value {
+  color: #ff7a8a !important;
+}
+
+.st-key-alerta_causa_acoes a[href],
+.st-key-alerta_med_acoes a[href] {
+  background: #ff7a8a !important;
+  color: #ffffff !important;
+}
+
+.st-key-alerta_causa_acoes a[href]:hover,
+.st-key-alerta_med_acoes a[href]:hover {
+  background: #ff93a0 !important;
+}
+
+.st-key-base_sim:hover .base-card,
+.st-key-base_medicamentos:hover .base-card,
+.st-key-base_vacinas:hover .base-card {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+.st-key-dataset_desabilitado {
+  opacity: 0.42;
+  filter: grayscale(0.45);
+}
+
+.st-key-dataset_desabilitado [data-testid="stExpander"] summary::after {
+  color: #9aa3af !important;
+}
+
+.section-title {
+  color: #c5cad3 !important;
+}
+
+.chip-gray {
+  background: #2c333d !important;
+  color: #e8eaed !important;
+}
+
+.pya-sobre-titulo h2 {
+  color: #e8eaed !important;
+}
+
+.pya-sobre-logo {
+  border-color: #e8eaed;
+  background: #ffffff;
+}
+
+a,
+.stPageLink a,
+[data-testid="stPageLink-NavLink"] {
+  color: #8bb6ff !important;
+}
+
+.pya-voltar {
+  color: #8bb6ff !important;
+  background: transparent !important;
+}
+
+.pya-voltar:hover {
+  color: #b8d0ff !important;
+  background: #243044 !important;
+}
+
+.pya-titulo-faixa h2 {
+  color: #e8eaed !important;
+}
+
+.sim-analise-link,
+.sim-analise-link * {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.sim-analise-link:hover .analise-card {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+.analise-card {
+  background:
+    linear-gradient(180deg, rgba(0, 89, 187, 0.18) 0%, #1a1e24 45%),
+    #1a1e24 !important;
+  border-color: #2c333d !important;
+}
+
+.sim-analise-item:nth-child(3n + 1) .analise-card {
+  background:
+    linear-gradient(180deg, rgba(0, 89, 187, 0.22) 0%, #1a1e24 45%),
+    #1a1e24 !important;
+}
+
+.sim-analise-item:nth-child(3n + 2) .analise-card {
+  background:
+    linear-gradient(180deg, rgba(253, 192, 3, 0.2) 0%, #1a1e24 45%),
+    #1a1e24 !important;
+}
+
+.sim-analise-item:nth-child(3n + 3) .analise-card {
+  background:
+    linear-gradient(180deg, rgba(182, 21, 46, 0.22) 0%, #1a1e24 45%),
+    #1a1e24 !important;
+}
+
+.analise-card .base-card-title,
+.analise-card .muted {
+  color: #e8eaed !important;
+}
+
+.st-key-hub_base h2,
+.st-key-hub_base [data-testid="stMarkdownContainer"] h2 {
+  color: #6eb0ff !important;
+}
+
+.st-key-hub_base h3,
+.st-key-hub_base [data-testid="stMarkdownContainer"] h3 {
+  color: #ff7a8a !important;
+  border-left-color: #fdc003 !important;
+}
+
+.hub-eyebrow,
+.hub-highlight-value {
+  color: #8bb6ff !important;
+}
+
+.hub-hero h1 {
+  color: #e8eaed !important;
+}
+
+.hub-hero > p:last-child,
+.hub-topics-heading > p:last-child,
+.hub-highlight-label,
+.hub-highlight-detail {
+  color: #aeb6c2 !important;
+}
+
+.hub-highlight-card {
+  border-color: #2c333d !important;
+  border-top-color: #6ba6ff !important;
+  background: #1a1e24 !important;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.24) !important;
+}
+
+.hub-highlight-card:nth-child(2) { border-top-color: #fdc003 !important; }
+.hub-highlight-card:nth-child(3) { border-top-color: #ff7a8a !important; }
+.hub-highlight-card:nth-child(4) { border-top-color: #8bb6ff !important; }
+
+.med-busca-logo {
+  color: #6ba6ff !important;
+}
+
+.med-busca-periodo,
+.med-busca-fonte {
+  color: #9aa3b2 !important;
+}
+
+.med-busca-kpi .kpi-value {
+  color: #6ba6ff !important;
+}
+
+.chip-blue {
+  background: #1e3a5f !important;
+  color: #8ec5ff !important;
+}
+
+/* Expanders e detalhes Streamlit */
+[data-testid="stExpander"] details,
+[data-testid="stExpander"] summary {
+  background: #1a1e24 !important;
+  color: #e8eaed !important;
+  border-color: #2c333d !important;
+}
+
+/* Plotly: eixos/título claros. Não pintar .text genérico — números do heatmap
+   precisam de preto nas células claras. */
+.js-plotly-plot .gtitle,
+.js-plotly-plot .xtick text,
+.js-plotly-plot .ytick text,
+.js-plotly-plot .xtitle,
+.js-plotly-plot .ytitle,
+.js-plotly-plot .g-xtitle text,
+.js-plotly-plot .g-ytitle text,
+.js-plotly-plot .legendtext,
+.js-plotly-plot .cbaxis text,
+.js-plotly-plot .cbtitle {
+  fill: #e8eaed !important;
+}

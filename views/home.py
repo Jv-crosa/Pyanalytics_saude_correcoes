@@ -1,0 +1,302 @@
+"""Página inicial: KPIs e atalhos para as bases do portal."""
+
+import streamlit as st
+
+from catalog import NavItem, bases
+from components.cards import alert_card, base_card, kpi_card
+from data.kpis import resumo_home
+from data.kpis_med import resumo_home_med
+from data.kpis_remume import resumo_home_remume
+from data.kpis_vac import resumo_home_vac
+from data.paths import csv_dispensacao, csv_remume, csv_vacinas
+from navigation import link_pagina
+from views.common import load_or_stop
+
+
+def render() -> None:
+    """Monta a Home com destaques da SIM, Medicamentos e Vacinações."""
+    kpis = resumo_home(load_or_stop())
+    kpis_med = _kpis_med_seguros()
+    kpis_remume = _kpis_remume_seguros()
+    kpis_vac = _kpis_vac_seguros()
+    _kpis_sim(kpis)
+    st.write("")
+    _alerta_sim(kpis)
+    if kpis_remume:
+        st.write("")
+        _destaque_remume(kpis_remume)
+    if kpis_med:
+        st.write("")
+        _kpis_med(kpis_med)
+        st.write("")
+        _alerta_med(kpis_med)
+    if kpis_vac:
+        st.write("")
+        _kpis_vac(kpis_vac)
+        st.write("")
+        _alerta_vac(kpis_vac)
+    st.write("")
+    _atalhos()
+
+
+def _kpis_med_seguros() -> dict | None:
+    """Carrega KPIs de medicamentos; None se o CSV ainda não existir."""
+    try:
+        if not csv_dispensacao().exists():
+            return None
+        from data.prepare_med import load_med
+
+        df = load_med()
+        if df is None or getattr(df, "empty", True):
+            return None
+        return resumo_home_med(df)
+    except Exception:
+        return None
+
+
+def _kpis_remume_seguros() -> dict | None:
+    """Carrega destaque da REMUME; None se o CSV ainda não existir."""
+    try:
+        if not csv_remume().exists():
+            return None
+        from data.load_remume import load_remume
+
+        df = load_remume()
+        if df is None or getattr(df, "empty", True):
+            return None
+        return resumo_home_remume(df)
+    except Exception:
+        return None
+
+
+def _kpis_vac_seguros() -> dict | None:
+    """Carrega KPIs de vacinações; None se o CSV ainda não existir."""
+    try:
+        if not csv_vacinas().exists():
+            return None
+        from data.prepare_vac import load_vac
+
+        df = load_vac()
+        if df is None or getattr(df, "empty", True):
+            return None
+        return resumo_home_vac(df)
+    except Exception:
+        return None
+
+
+def _kpis_sim(kpis: dict) -> None:
+    """Dois cards grandes da SIM (hover/clique = padrão da Home)."""
+    col1, col2 = st.columns(2)
+    with col1:
+        with st.container(key="kpi_home_sim_obitos"):
+            st.markdown(_card_total_sim(kpis), unsafe_allow_html=True)
+            _botao_dataset("sim", "kpi_home_sim_obitos_acoes")
+    with col2:
+        with st.container(key="kpi_home_sim_hospital"):
+            st.markdown(_card_hospital(kpis), unsafe_allow_html=True)
+            _botao_dataset("sim", "kpi_home_sim_hospital_acoes")
+
+
+def _card_total_sim(kpis: dict) -> str:
+    """Card do total de óbitos no período."""
+    return kpi_card(
+        "Óbitos de residentes",
+        _br(kpis["total"]),
+        f"Araranguá · {kpis['periodo']}",
+        "Série histórica",
+        "chip-yellow",
+    )
+
+
+def _card_hospital(kpis: dict) -> str:
+    """Card do percentual de óbitos em hospital."""
+    return kpi_card(
+        "Óbitos em hospital",
+        f"{kpis['pct_hospital']:.0f}%",
+        "local de ocorrência",
+        "SIM",
+        "chip-gray",
+    )
+
+
+def _alerta_sim(kpis: dict) -> None:
+    """Card da causa principal, com atalho para a Visão da Base."""
+    with st.container(key="alerta_causa"):
+        st.markdown(_html_alerta_sim(kpis), unsafe_allow_html=True)
+        _botao_dataset("sim", "alerta_causa_acoes")
+
+
+def _html_alerta_sim(kpis: dict) -> str:
+    """HTML do card de causa mais frequente."""
+    return alert_card(
+        "Causa mais frequente",
+        kpis["causa"],
+        "Principal causa básica de óbito entre residentes de Araranguá.",
+        _br(kpis["n_causa"]),
+        f"{kpis['pct_causa']:.1f}% do total no período",
+    )
+
+
+def _destaque_remume(kpis: dict) -> None:
+    """Card da REMUME: leva direto à busca de locais de dispensação."""
+    with st.container(key="kpi_home_remume_busca"):
+        st.markdown(_html_remume(kpis), unsafe_allow_html=True)
+        _botao_dataset("med_busca", "kpi_home_remume_busca_acoes")
+
+
+def _html_remume(kpis: dict) -> str:
+    """HTML do destaque REMUME que leva à busca de locais."""
+    return alert_card(
+        "Onde tirar um medicamento",
+        "Busque aqui as informações de local do medicamento",
+        (
+            "Consulte a REMUME e veja em qual unidade ou farmácia "
+            "cada item é dispensado."
+        ),
+        _br(kpis["medicamentos"]),
+        "medicamentos na lista · clique para buscar",
+    )
+
+
+def _kpis_med(kpis: dict) -> None:
+    """Cards de volume e custo da farmácia básica (clique abre Medicamentos)."""
+    col1, col2 = st.columns(2)
+    with col1:
+        with st.container(key="kpi_home_med_registros"):
+            st.markdown(_card_registros_med(kpis), unsafe_allow_html=True)
+            _botao_dataset("medicamentos", "kpi_home_med_registros_acoes")
+    with col2:
+        with st.container(key="kpi_home_med_custo"):
+            st.markdown(_card_custo_med(kpis), unsafe_allow_html=True)
+            _botao_dataset("medicamentos", "kpi_home_med_custo_acoes")
+
+
+def _card_registros_med(kpis: dict) -> str:
+    """Card do volume de dispensações."""
+    return kpi_card(
+        "Dispensações registradas",
+        _br(kpis["total"]),
+        f"Farmácia Básica · {kpis['periodo']}",
+        f"{_br(kpis['medicamentos'])} itens",
+        "chip-yellow",
+    )
+
+
+def _card_custo_med(kpis: dict) -> str:
+    """Card do custo total estimado."""
+    return kpi_card(
+        "Custo total estimado",
+        _reais(kpis["custo_total"]),
+        "quantidade × custo médio",
+        "Medicamentos",
+        "chip-gray",
+    )
+
+
+def _alerta_med(kpis: dict) -> None:
+    """Destaque do medicamento que mais pesa no custo."""
+    with st.container(key="alerta_med"):
+        st.markdown(_html_alerta_med(kpis), unsafe_allow_html=True)
+        _botao_dataset("medicamentos", "alerta_med_acoes")
+
+
+def _html_alerta_med(kpis: dict) -> str:
+    """HTML do card do medicamento de maior custo."""
+    return alert_card(
+        "Medicamento de maior custo",
+        kpis["top_med"],
+        "Item que mais concentra o gasto estimado na dispensação pública.",
+        _reais(kpis["top_custo"]),
+        f"{kpis['top_pct']:.1f}% do custo total no período",
+    )
+
+
+def _kpis_vac(kpis: dict) -> None:
+    """Cards de volume e bairros da vacinação (clique abre Vacinações)."""
+    col1, col2 = st.columns(2)
+    with col1:
+        with st.container(key="kpi_home_vac_registros"):
+            st.markdown(_card_registros_vac(kpis), unsafe_allow_html=True)
+            _botao_dataset("vacinas", "kpi_home_vac_registros_acoes")
+    with col2:
+        with st.container(key="kpi_home_vac_bairros"):
+            st.markdown(_card_bairros_vac(kpis), unsafe_allow_html=True)
+            _botao_dataset("vacinas", "kpi_home_vac_bairros_acoes")
+
+
+def _card_registros_vac(kpis: dict) -> str:
+    """Card do volume de aplicações."""
+    return kpi_card(
+        "Aplicações registradas",
+        _br(kpis["total"]),
+        f"Araranguá · {kpis['periodo']}",
+        f"{_br(kpis['vacinas'])} vacinas",
+        "chip-yellow",
+    )
+
+
+def _card_bairros_vac(kpis: dict) -> str:
+    """Card da quantidade de bairros (pessoa vacinada)."""
+    return kpi_card(
+        "Bairros",
+        _br(kpis["bairros"]),
+        "bairro da pessoa vacinada na base",
+        "Vacinações",
+        "chip-gray",
+    )
+
+
+def _alerta_vac(kpis: dict) -> None:
+    """Destaque da vacina mais aplicada no período."""
+    with st.container(key="alerta_vac"):
+        st.markdown(_html_alerta_vac(kpis), unsafe_allow_html=True)
+        _botao_dataset("vacinas", "alerta_vac_acoes")
+
+
+def _html_alerta_vac(kpis: dict) -> str:
+    """HTML do card da vacina mais frequente."""
+    return alert_card(
+        "Vacina mais aplicada",
+        kpis["top_vacina"],
+        "Imunizante com maior volume de aplicações registradas no período.",
+        _br(kpis["top_n"]),
+        f"{kpis['top_pct']:.1f}% do total com data válida",
+    )
+
+
+def _botao_dataset(page_id: str, key: str) -> None:
+    """PageLink invisível que cobre o card e abre a base."""
+    with st.container(key=key):
+        link_pagina(page_id, "Acessar dataset")
+
+
+def _atalhos() -> None:
+    """Cards quadrados: uma base cada (clique vai à visão geral)."""
+    st.markdown('<p class="section-title">Explore as bases</p>', unsafe_allow_html=True)
+    with st.container(key="explore_bases"):
+        colunas = st.columns(len(bases()))
+        for coluna, item in zip(colunas, bases()):
+            with coluna:
+                _card_base(item)
+
+
+def _card_base(item: NavItem) -> None:
+    """Card da base; clique abre a visão geral (mesmo se ainda em breve)."""
+    status = "Disponível" if item.ready else "Em breve"
+    with st.container(key=f"base_{item.id}"):
+        st.html(base_card(item.short, item.description, status, item.ready))
+        link_pagina(item.id, "Abrir")
+
+
+def _br(numero: int) -> str:
+    """Inteiro no formato brasileiro (15.608)."""
+    return f"{numero:,}".replace(",", ".")
+
+
+def _reais(valor: float) -> str:
+    """Valor em R$ abreviado (R$ 2,2 mi)."""
+    if valor >= 1_000_000:
+        return f"R$ {valor / 1_000_000:.1f} mi".replace(".", ",")
+    if valor >= 1_000:
+        return f"R$ {valor / 1_000:.0f} mil"
+    return f"R$ {valor:,.0f}".replace(",", ".")
