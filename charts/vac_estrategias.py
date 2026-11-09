@@ -74,8 +74,9 @@ def _historia_frequencia(df: pd.DataFrame, periodo: str) -> str | None:
     if not outras.empty:
         soma = int(outras.sum())
         partes = list(outras.head(2).items())
-        if "19" in outras.index and "19" not in [k for k, _ in partes]:
-            partes.append(("19", outras["19"]))
+        covid = next((k for k in outras.index if str(k) in ("19", "Covid-19")), None)
+if covid is not None and covid not in [k for k, _ in partes]:
+    partes.append((covid, outras[covid]))
         exemplos = _lista([f"{_rotulo(k)} ({_n(v)})" for k, v in partes])
         qtd = _EXTENSO.get(len(outras), str(len(outras)))
         texto += (
